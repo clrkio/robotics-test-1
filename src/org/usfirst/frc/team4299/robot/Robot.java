@@ -7,7 +7,10 @@
 
 package org.usfirst.frc.team4299.robot;
 
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -23,6 +26,10 @@ public class Robot extends IterativeRobot {
 	private static final String kCustomAuto = "My Auto";
 	private String m_autoSelected;
 	private SendableChooser<String> m_chooser = new SendableChooser<>();
+	
+	Spark leftMotor;
+	Spark rightMotor;
+	XboxController controller;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -33,6 +40,11 @@ public class Robot extends IterativeRobot {
 		m_chooser.addDefault("Default Auto", kDefaultAuto);
 		m_chooser.addObject("My Auto", kCustomAuto);
 		SmartDashboard.putData("Auto choices", m_chooser);
+		
+		leftMotor = new Spark(0);
+		rightMotor = new Spark(1);
+		
+		controller = new XboxController(5);
 	}
 
 	/**
@@ -75,6 +87,12 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+		double leftSpeed = controller.getY(Hand.kLeft);
+		double rightSpeed = controller.getY(Hand.kRight);
+		
+		leftMotor.setSpeed(leftSpeed);
+		rightMotor.setSpeed(rightSpeed);
+		
 	}
 
 	/**
